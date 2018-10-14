@@ -1,6 +1,6 @@
 Matrix Calculator
 
-Enter matrix in text file seperated by tabs e.g:
+Enter matrix in text file seperated by tabs and newlines e.g:
 <br>
 0   2   6   2<br>
 3   9   4   7<br>
