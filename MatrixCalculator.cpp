@@ -1,5 +1,16 @@
+/*
+  ==============================================================================
 
+    This file was auto-generated!
+
+    It contains the basic startup code for a JUCE application.
+
+  ==============================================================================
+*/
+
+#include "../JuceLibraryCode/JuceHeader.h"
 #include <fstream>
+
 #include <cmath>
 #include <string>
 #include <set>
@@ -49,6 +60,34 @@ rational simplify_fraction(rational r) {
 		}
 	}
 	return r;
+}
+
+void reduce_equation(vector<vector<rational>>& matrix, long long int row) {
+
+	long long int biggest_elem = 0;
+	for (int i = 0; i < matrix[row].size(); ++i) {
+		if (biggest_elem < std::abs(matrix[row][i].num)) {
+			biggest_elem = std::abs(matrix[row][i].num);
+		}
+	}
+
+	for (; biggest_elem >= 2; biggest_elem--) {
+		bool state = true;
+		for (int i = 0; i < matrix[row].size(); ++i) {
+			if (matrix[row][i].num%biggest_elem == 0) {
+				continue;
+			}
+			else {
+				state = false;
+				break;
+			}
+		}
+		if (state) {
+			for (int j = 0; j < matrix[row].size(); ++j) {
+				matrix[row][j].num /= biggest_elem;
+			}
+		}
+	}
 }
 
 void calculate_matrix(long long int rows, long long int columns, vector<vector<rational>>& matrix) {
@@ -119,8 +158,10 @@ void calculate_matrix(long long int rows, long long int columns, vector<vector<r
 									}
 								}
 
-								//cout << "\n\n";
-								//print_matrix(rows, columns, matrix);
+								reduce_equation(matrix, k);
+
+								cout << "\n\n";
+								print_matrix(rows, columns, matrix);
 
 								++current_row;
 							}
@@ -183,9 +224,10 @@ void calculate_matrix(long long int rows, long long int columns, vector<vector<r
 									}
 								}
 
+								reduce_equation(matrix, p);
 
-								//cout << "\n\n";
-								//print_matrix(rows, columns, matrix);
+								cout << "\n\n";
+								print_matrix(rows, columns, matrix);
 
 							}
 							else {
@@ -196,7 +238,7 @@ void calculate_matrix(long long int rows, long long int columns, vector<vector<r
 						
 						break;// we are done with that column
 					}
-
+					
 				}
 				break;
 			}
@@ -207,6 +249,7 @@ void calculate_matrix(long long int rows, long long int columns, vector<vector<r
 		} // end of row for
 		
 	} // end of column for
+
 
 }
 
