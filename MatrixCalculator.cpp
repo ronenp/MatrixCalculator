@@ -1,5 +1,16 @@
+/*
+  ==============================================================================
 
+    This file was auto-generated!
+
+    It contains the basic startup code for a JUCE application.
+
+  ==============================================================================
+*/
+
+#include "../JuceLibraryCode/JuceHeader.h"
 #include <fstream>
+
 #include <cmath>
 #include <string>
 #include <set>
@@ -51,32 +62,19 @@ rational simplify_fraction(rational r) {
 	return r;
 }
 
+long long int gcd(long long int a, long long int b) {
+	if (a == 0)return b;
+	return gcd(b%a, a);
+}
+
 void reduce_equation(vector<vector<rational>>& matrix, long long int row) {
+	long long int result = matrix[row][0].num;
+	for (int i = 1; i < matrix[row].size(); i++)
+		result = gcd(matrix[row][i].num, result);
 
-	long long int biggest_elem = 0;
 	for (int i = 0; i < matrix[row].size(); ++i) {
-		if (biggest_elem < std::abs(matrix[row][i].num)) {
-			biggest_elem = std::abs(matrix[row][i].num);
-		}
-	}
-
-	for (; biggest_elem >= 2; biggest_elem--) {
-		bool state = true;
-		for (int i = 0; i < matrix[row].size(); ++i) {
-			if (matrix[row][i].num%biggest_elem == 0) {
-				continue;
-			}
-			else {
-				state = false;
-				break;
-			}
-		}
-		if (state) {
-			for (int j = 0; j < matrix[row].size(); ++j) {
-				matrix[row][j].num /= biggest_elem;
-			}
-		}
-	}
+		matrix[row][i].num /= result;
+	}	
 }
 
 void calculate_matrix(long long int rows, long long int columns, vector<vector<rational>>& matrix) {
