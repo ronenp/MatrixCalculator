@@ -60,7 +60,9 @@ void reduce_equation(vector<vector<rational>>& matrix, long long int row) {
 	long long int result = matrix[row][0].num;
 	for (int i = 1; i < matrix[row].size(); i++)
 		result = gcd(matrix[row][i].num, result);
-
+	
+	if (result == 0)result = 1;
+	
 	for (int i = 0; i < matrix[row].size(); ++i) {
 		matrix[row][i].num /= result;
 	}	
